@@ -43,9 +43,6 @@ jobs:
           ssh-keyscan -H "$IP" >> ~/.ssh/known_hosts
         env:
           IP: ${{ secrets.REMOTE_HOST }}
-        with:
-          # Private Key
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.2.11
         with:
