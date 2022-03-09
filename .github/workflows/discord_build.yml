@@ -37,12 +37,6 @@ jobs:
     needs: build
 
     steps:
-      - name: Prepare SSH to work with the remote Server
-        run: |
-          touch ~/.ssh/known_hosts &&
-          ssh-keyscan -H "$IP" >> ~/.ssh/known_hosts
-        env:
-          IP: ${{ secrets.REMOTE_HOST }}
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.2.11
         with:
@@ -58,3 +52,8 @@ jobs:
           TARGET: '/home/REMOTE_USER/Informy-Bot'
           # An array of folder to exclude
           EXCLUDE: '/.github/,/node_modules/, /.vscode/, /.gitignore, /README.md, /.dockerignore, /Dockerfile'
+        run: |
+          touch ~/.ssh/known_hosts &&
+          ssh-keyscan -H "$IP" >> ~/.ssh/known_hosts
+        env:
+          IP: ${{ secrets.REMOTE_HOST }}
