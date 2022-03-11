@@ -37,13 +37,6 @@ jobs:
     needs: build
 
     steps:
-      - name: Prepare SSH to work with the remote Server
-        run: |
-          cd ~ && mkdir .ssh &&
-          touch ~/.ssh/known_hosts &&
-          ssh-keyscan -H "$IP" >>~/.ssh/known_hosts
-        env:
-          IP: ${{ secrets.REMOTE_HOST }}
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.2.11
         with:
