@@ -38,17 +38,11 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v2.2.11
+        uses: appleboy/ssh-action@master
         with:
-          # Private Key
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          # Remote host
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          # Remote user
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          # Remote port
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          # Target directory
-          TARGET: ${{ secrets.TARGET }}
-          # An array of folder to exclude
-          EXCLUDE: '/.github/,/node_modules/, /.vscode/, /.gitignore, /README.md, /.dockerignore, /Dockerfile'
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.REMOTE_PORT }}
+          script: |
+            cd ~/Informy-Bot && mkdir a
