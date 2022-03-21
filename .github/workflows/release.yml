@@ -61,7 +61,6 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.PASSWORD }}
           port: ${{ secrets.REMOTE_PORT }}
-          passphrase: ${{ secrets.REMOTE_PASSPHRASE }}
           script: |
             cd ~/Informy-Bot && git pull &&
             ~/Docker/container_exec.sh $CONTAINER_NAME $USERNAME $IMAGE_NAME
