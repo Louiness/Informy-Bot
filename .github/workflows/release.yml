@@ -61,8 +61,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
-          script: |
-            cd ~/Informy-Bot && ls -al
+          script: cd ~
         env:
           CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
           USERNAME: ${{ secrets.USERNAME }}
