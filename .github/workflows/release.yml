@@ -55,12 +55,11 @@ jobs:
     needs: build
     steps:
       - name: Deploy to Server
-        uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
+        uses: appleboy/ssh-action@master
         with:
-          ORIGIN: ${{ secrets.REMOTE_HOST }}
-          USER: ${{ secrets.REMOTE_USER }}
-          SSHKEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          PORT: ${{ secrets.REMOTE_PORT }}
-          NAME: production
-      - run: |
-          ssh production ls --help
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.REMOTE_PORT }}
+          script: |
+            ls -al
