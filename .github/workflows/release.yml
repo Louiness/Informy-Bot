@@ -62,4 +62,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
-            ls -al
+            cd ~/Informy-Bot && git pull &&
+            ~/Docker/container_exec.sh $CONTAINER_NAME $USERNAME $IMAGE_NAME
+        env:
+          CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+          USERNAME: ${{ secrets.USERNAME }}
+          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
