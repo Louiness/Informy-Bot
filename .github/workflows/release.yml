@@ -48,7 +48,6 @@ jobs:
           push: true
           # List of tags
           tags: kks518/node-web-app:latest
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
