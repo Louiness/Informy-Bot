@@ -61,6 +61,6 @@ jobs:
           USER: ${{ secrets.REMOTE_USER }}
           SSHKEY: ${{ secrets.SSH_PRIVATE_KEY }}
           PORT: ${{ secrets.REMOTE_PORT }}
+          NAME: tester
       - run: |
-          cd ~/Informy-Bot && git pull &&
-          ~/Docker/container_exec.sh $CONTAINER_NAME $USERNAME $IMAGE_NAME
+          ssh tester ls -al
