@@ -62,4 +62,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
-            cd ~ && ls -al
+            cd ~/Informy-Bot && git pull && ~/Docker/container_exec.sh informy-bot kks518 node-web-app
