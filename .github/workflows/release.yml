@@ -57,10 +57,5 @@ jobs:
       - name: Deploy to Server
         uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
         with:
-          ORIGIN: ${{ secrets.REMOTE_HOST }}
-          USER: ${{ secrets.REMOTE_USER }}
           SSHKEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          PORT: ${{ secrets.REMOTE_PORT }}
-          NAME: tester
-      - run: |
-          ssh tester ls -al
+      - run: ssh -T git@github.com || true
