@@ -61,7 +61,8 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
-          script: cd ~
+          script: |
+            cd /home/kwangsoo_kim/ && ls -al
         env:
           CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
           USERNAME: ${{ secrets.USERNAME }}
