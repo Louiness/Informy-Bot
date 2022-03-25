@@ -55,17 +55,11 @@ jobs:
     needs: build
     steps:
       - name: Deploy to Server
-        uses: appleboy/ssh-action@master
+        uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.REMOTE_PORT }}
-          passphrase: ${{ secrets.REMOTE_PASSPHRASE }}
+          ORIGIN: ${{ secrets.REMOTE_HOST }}
+          USER: ${{ secrets.REMOTE_USER }}
+          SSHKEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          PORT: ${{ secrets.REMOTE_PORT }}
           script: |
-            cd ~/Informy-Bot && git pull &&
-            ~/Docker/container_exec.sh $CONTAINER_NAME $USERNAME $IMAGE_NAME
-        env:
-          CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-          USERNAME: ${{ secrets.USERNAME }}
-          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+            echo "hello world"
