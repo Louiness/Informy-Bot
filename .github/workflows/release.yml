@@ -62,7 +62,3 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: ls -al
-        env:
-          CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-          USERNAME: ${{ secrets.USERNAME }}
-          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
