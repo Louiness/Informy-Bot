@@ -1,2 +1,9 @@
+### Folder ###
 node_modules
 .vscode
+.git
+.github
+.gitignore
+
+### File ###
+README.md
