@@ -2,10 +2,10 @@ FROM node:17-alpine
 
 WORKDIR /usr/src/app
 
-COPY package*.json /usr/src/app
+COPY package*.json ./
 
-RUN npm install
+RUN ll
 
-COPY . /usr/src/app
+COPY . .
 
 EXPOSE 8080
