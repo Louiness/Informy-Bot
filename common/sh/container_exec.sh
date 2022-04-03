@@ -8,14 +8,10 @@
 # when was error, exit shell script
 set -e
 
-source common_func.sh
+source ./common_func.sh
 
 version="latest"
 container_name=$1
-
-echo "## Automaion docker build and run ##"
-createMongoDBContainer
-createInformyBotContainer
 
 function createMongoDBContainer() {
   # create mongodb Container
@@ -69,3 +65,7 @@ function copyEnvFile() {
   echo "=> Copy .env file..."
   docker cp ~/Informy-Bot/.env informy-bot:/usr/src/app/
 }
+
+echo "## Automaion docker build and run ##"
+createMongoDBContainer
+createInformyBotContainer
