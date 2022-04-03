@@ -50,4 +50,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
-            cd ~/Informy-Bot && git pull && ./common/sh/container_exec.sh
+            cd ~/Informy-Bot && git pull && cd common/sh && ./container_exec.sh
