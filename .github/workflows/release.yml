@@ -6,7 +6,7 @@ name: discordJS
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [main]
+    branches: [main, develop_*]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -49,4 +49,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_PORT }}
           script: |
-            cd ~/Informy-Bot && git pull && ~/Docker/container_exec.sh informy-bot kks518 node-web-app
+            cd ~/Informy-Bot && git pull && ./common/sh/container_exec.sh
