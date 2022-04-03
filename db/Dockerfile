@@ -10,6 +10,6 @@ ENV PRD_USERNAME 'develop'
 ENV PRD_PASSWORD 'develop!'
 
 # Copy Initialize file
-COPY /db/users_init.sh /docker-entrypoint-initdb.d/
+COPY ./users_init.sh /docker-entrypoint-initdb.d/
 
 EXPOSE 27017
