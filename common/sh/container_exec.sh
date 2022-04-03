@@ -36,6 +36,7 @@ function createInformyBotContainer() {
   createContainer
   copyEnvFile
   executeContainer ${start}
+  docker exec informy-bot npm run run
 }
 
 function setVariable() {
@@ -68,8 +69,3 @@ function copyEnvFile() {
   echo "=> Copy .env file..."
   docker cp ~/Informy-Bot/.env informy-bot:/usr/src/app/
 }
-
-# start container
-echo "=> Start ${container_name}..."
-docker start informy-bot
-docker exec informy-bot npm run run
