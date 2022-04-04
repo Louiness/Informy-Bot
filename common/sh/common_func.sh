@@ -14,10 +14,10 @@ function searchContainerStatus() {
 
   if [ -n "${PROC_ID}" ];
   then
-    echo "ALIVE : ${PROC_ID}"
+    echo "ALIVE : ${container_name}"
     executeContainer ${STOP}
   else
-    echo "DEAD : ${PROC_ID}"
+    echo "DEAD : ${container_name}"
   fi
 }
 
@@ -27,20 +27,24 @@ function executeContainer() {
   # 1: stop
   # 2: remove
   local execCmd=$1
+  local stringExecCmd=""
 
-  if [ execCMD -eq ${start} ] ; then
+  if [ ${execCmd} = ${start} ] ; then
     # start container
     echo "=> Start ${container_name} container..."
-  elif [ execCMD -eq ${stop} ] ; then
+    stringExecCmd="start"
+  elif [ ${execCmd} = ${stop} ] ; then
     # stop container
     echo "=> Stop ${container_name} container..."
-  elif [ execCMD -eq ${remove} ] ; then
+    stringExecCmd="stop"
+  elif [ ${execCmd} = ${remove} ] ; then
     # remove container
     echo "=> Remove ${container_name} container..."
+    stringExecCmd="rm"
   else
     # Exception
     echo "Please check the input parameter again"
     exit 9
   fi
-  docker execCMD ${container_name}
+  docker ${stringExecCmd} ${container_name}
 }

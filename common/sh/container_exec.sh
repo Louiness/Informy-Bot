@@ -11,7 +11,6 @@ set -e
 source ./common_func.sh
 
 version="latest"
-container_name=$1
 
 function createMongoDBContainer() {
   # create mongodb Container
