@@ -36,8 +36,8 @@ function createInformyBotContainer() {
 
 function setVariable() {
   container_name=$1
-  dockerhub_image_name=$2
-  dockerhub_username=$3
+  dockerhub_username=$2
+  dockerhub_image_name=$3
   port=$4
 }
 
