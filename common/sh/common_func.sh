@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+#set -e
 
 start=0
 stop=1
