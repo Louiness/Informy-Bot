@@ -31,7 +31,7 @@ function createInformyBotContainer() {
   createContainer
   copyEnvFile
   executeContainer ${start}
-  docker exec informy-bot npm run run
+  docker exec -d informy-bot npm run run
 }
 
 function setVariable() {
