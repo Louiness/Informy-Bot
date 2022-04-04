@@ -6,7 +6,7 @@
 #!/bin/bash
 
 # when was error, exit shell script
-set -e
+#set -e
 
 source ./common_func.sh
 
