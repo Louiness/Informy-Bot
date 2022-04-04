@@ -56,13 +56,13 @@ function pull_docker_images() {
 function createContainer() {
   # create container
   echo "=> Create container..."
-  docker create -p ${port}:${port} --name ${container_name} ${dockerhub_username}/${dockerhub_image_name}
+  docker create -p ${port}:${port} -it --name ${container_name} ${dockerhub_username}/${dockerhub_image_name}
 }
 
 function copyEnvFile() {
   # copy .env file
   echo "=> Copy .env file..."
-  docker cp ~/Informy-Bot/.env informy-bot:/usr/src/app/
+  docker cp ~/Informy-Bot/.env ${container_name}:/usr/src/app/
 }
 
 echo "## Automaion docker build and run ##"

@@ -15,7 +15,7 @@ function searchContainerStatus() {
   if [ -n "${PROC_ID}" ];
   then
     echo "ALIVE : ${container_name}"
-    executeContainer ${STOP}
+    executeContainer ${stop}
   else
     echo "DEAD : ${container_name}"
   fi
