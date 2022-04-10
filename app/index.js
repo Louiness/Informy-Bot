@@ -1,8 +1,8 @@
 const DiscordJS = require('discord.js');
 const Intents = DiscordJS.Intents;
 const mongoose = require('mongoose');
-require('dotenv').config();
-
+const rsp = require('./rsp');
+require('dotenv').config({ path: '../.env' });
 // Intents: 봇 기능 활성화 요소
 // 데이터의 민감한 특성으로 인해 아래 2개는 Privileged 특성이 활성화되어야 사용 가능
 // GUILD_PRESENCES, GUILD_MEMBERS
@@ -20,7 +20,8 @@ client.on('ready', async () => {
     keepAlive: true,
   });
 
-  const guildId = '832426298638729297';
+  // const guildId = '832426298638729297';
+  let guildId;
   const guild = client.guilds.cache.get(guildId);
   let commands;
 
@@ -35,6 +36,20 @@ client.on('ready', async () => {
     description: 'Replies with pong.',
   });
 
+  commands?.create({
+    name: 'rsp',
+    description: 'Rock Scissors Paper',
+    options: [
+      {
+        name: 'choise',
+        description: '1. Rock 2. Scissors 3. Paper 4. Random',
+        required: true,
+        type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
+        minValue: 1,
+        maxValue: 4,
+      },
+    ],
+  });
   commands?.create({
     name: 'add',
     description: 'Adds two numbers.',
@@ -80,12 +95,15 @@ client.on('interactionCreate', async (interaction) => {
     interaction.editReply({
       content: `The sum is ${num1 + num2}`,
     });
+  } else if (commandName === 'rsp') {
+    const userChoise = options.getNumber('choise');
+    const result = rsp.getResult(userChoise, interaction);
+    console.log(result);
   }
 });
 
 client.on('messageCreate', async (message) => {
   if (message.content === 'ping') {
-    console.log(message.member.user.username);
     message.reply({
       content: `pong,${message.member}`,
     });
