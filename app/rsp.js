@@ -1,4 +1,4 @@
-const getResult = (userChoice, interaction) => {
+export function getResult(userChoice, interaction) {
   const choices = ['rock', 'scissors', 'paper'];
 
   const getRandomChoise = () => {
@@ -17,6 +17,7 @@ const getResult = (userChoice, interaction) => {
     case 'paperrock':
       result++;
       interaction.reply({
+        ephemeral: true,
         content: `Computer was ${computerChoise}, You were ${strUserChoice}. You Win!`,
       });
       break;
@@ -24,6 +25,7 @@ const getResult = (userChoice, interaction) => {
     case 'rockrock':
     case 'paperpaper':
       interaction.reply({
+        ephemeral: true,
         content: `Computer was ${computerChoise}, You were ${strUserChoice}. Draw!`,
       });
       break;
@@ -32,6 +34,7 @@ const getResult = (userChoice, interaction) => {
     case 'paperscissors':
       result--;
       interaction.reply({
+        ephemeral: true,
         content: `Computer was ${computerChoise}, You were ${strUserChoice}. You Lose!`,
       });
       break;
@@ -40,6 +43,4 @@ const getResult = (userChoice, interaction) => {
     `computer: ${computerChoise}, user: ${strUserChoice}, result: ${result}`
   );
   return result;
-};
-
-module.exports.getResult = getResult;
+}
