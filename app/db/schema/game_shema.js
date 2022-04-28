@@ -1,0 +1,1 @@
+function GameShema(gameName) {}

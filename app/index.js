@@ -1,12 +1,13 @@
-const DiscordJS = require('discord.js');
-const Intents = DiscordJS.Intents;
-const mongoose = require('mongoose');
-const rsp = require('./rsp');
-require('dotenv').config({ path: '../.env' });
+import { Intents, Client, Constants } from 'discord.js';
+import { DBConnection } from './db/connect.js';
+import { getResult } from './rsp.js';
+import { User } from './db/user/user.js';
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 // Intents: 봇 기능 활성화 요소
 // 데이터의 민감한 특성으로 인해 아래 2개는 Privileged 특성이 활성화되어야 사용 가능
 // GUILD_PRESENCES, GUILD_MEMBERS
-const client = new DiscordJS.Client({
+const client = new Client({
   intents: [
     Intents.FLAGS.GUILDS, //
     Intents.FLAGS.GUILD_MESSAGES, // 봇 메시지 수신 활성화
@@ -16,9 +17,9 @@ const client = new DiscordJS.Client({
 
 client.on('ready', async () => {
   console.log('The bot is ready');
-  await mongoose.connect(process.env.MONGO_URI || '', {
-    keepAlive: true,
-  });
+
+  const dbConnection = new DBConnection(process.env.MONGO_URI);
+  dbConnection.dbConnect();
 
   // const guildId = '832426298638729297';
   let guildId;
@@ -44,7 +45,7 @@ client.on('ready', async () => {
         name: 'choise',
         description: '1. Rock 2. Scissors 3. Paper 4. Random',
         required: true,
-        type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
+        type: Constants.ApplicationCommandOptionTypes.NUMBER,
         minValue: 1,
         maxValue: 4,
       },
@@ -58,13 +59,13 @@ client.on('ready', async () => {
         name: 'num1',
         description: 'The first numbers.',
         required: true,
-        type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
+        type: Constants.ApplicationCommandOptionTypes.NUMBER,
       },
       {
         name: 'num2',
         description: 'The second numbers.',
         required: true,
-        type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
+        type: Constants.ApplicationCommandOptionTypes.NUMBER,
       },
     ],
   });
@@ -96,9 +97,21 @@ client.on('interactionCreate', async (interaction) => {
       content: `The sum is ${num1 + num2}`,
     });
   } else if (commandName === 'rsp') {
-    const userChoise = options.getNumber('choise');
-    const result = rsp.getResult(userChoise, interaction);
-    console.log(result);
+    const user = new User();
+    const userInfo = await user.isExist(interaction.user.id);
+    if (userInfo) {
+      const userChoise = options.getNumber('choise');
+      getResult(userChoise, interaction);
+    } else {
+      interaction.reply({
+        content:
+          'You have to save User Information. Do you save User Account on db?',
+        ephemeral: true,
+      });
+      // await user.putUser(interaction.member).then(function () {
+      //   console.log('create succeed!');
+      // });
+    }
   }
 });
 
