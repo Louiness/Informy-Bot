@@ -1,4 +1,11 @@
-import { Intents, Client, Constants } from 'discord.js';
+import {
+  Intents,
+  Client,
+  Constants,
+  MessageEmbed,
+  MessageActionRow,
+  MessageButton,
+} from 'discord.js';
 import { DBConnection } from './db/connect.js';
 import { getResult } from './rsp.js';
 import { User } from './db/user/user.js';
@@ -103,14 +110,70 @@ client.on('interactionCreate', async (interaction) => {
       const userChoise = options.getNumber('choise');
       getResult(userChoise, interaction);
     } else {
+      // message Embed
+      const embed = new MessageEmbed()
+        .setColor('RED')
+        .setTitle('Unable to verify user information')
+        .setDescription(
+          'You have to save User Information. Do you save User Account on db?'
+        );
+      // button component
+      const userCreateBtn = new MessageActionRow()
+        .addComponents(
+          new MessageButton()
+            .setCustomId('saveUser')
+            .setLabel('Yes')
+            .setStyle('PRIMARY')
+        )
+        .addComponents(
+          new MessageButton()
+            .setCustomId('noneActive')
+            .setLabel('No')
+            .setStyle('DANGER')
+        );
+      const rspBtn = new MessageActionRow().addComponents(
+        new MessageButton()
+          .setCustomId('playRsp')
+          .setLabel('Play RSP')
+          .setStyle('PRIMARY')
+      );
+
+      const filter = (messageInteraction) =>
+        messageInteraction.user.id === interaction.user.id;
+
+      const collector = interaction.channel.createMessageComponentCollector({
+        filter,
+        time: 15000,
+      });
+
+      collector.on('collect', async (messageInteraction) => {
+        if (messageInteraction.customId === 'saveUser') {
+          await user.putUser(interaction.member).then(function () {
+            console.log('user create succeed!');
+            embed.setColor('GREEN');
+            embed.setTitle('User information generated');
+            embed.setDescription('user create succeed!');
+            messageInteraction.update({
+              embeds: [embed],
+              components: [rspBtn],
+            });
+          });
+        } else if (messageInteraction.customId === 'noneActive') {
+          await messageInteraction.update({
+            embeds: [],
+            content: 'bye bye',
+            components: [],
+          });
+        } else if (messageInteraction.customId === 'playRsp') {
+          const userChoise = options.getNumber('choise');
+          getResult(userChoise, messageInteraction);
+        }
+      });
       interaction.reply({
-        content:
-          'You have to save User Information. Do you save User Account on db?',
+        embeds: [embed],
+        components: [userCreateBtn],
         ephemeral: true,
       });
-      // await user.putUser(interaction.member).then(function () {
-      //   console.log('create succeed!');
-      // });
     }
   }
 });
