@@ -1,3 +1,5 @@
+import { CommandInteraction } from 'discord.js';
+
 export function getResult(userChoice, interaction) {
   const choices = ['rock', 'scissors', 'paper'];
 
@@ -10,37 +12,40 @@ export function getResult(userChoice, interaction) {
 
   const computerChoise = getRandomChoise();
 
-  let result = 0;
+  let score = 0;
+  let result = {
+    embeds: [],
+    content: '',
+    components: [],
+    ephemeral: true,
+  };
   switch (strUserChoice + computerChoise) {
     case 'scissorspaper':
     case 'rockscissors':
     case 'paperrock':
-      result++;
-      interaction.reply({
-        ephemeral: true,
-        content: `Computer was ${computerChoise}, You were ${strUserChoice}. You Win!`,
-      });
+      score++;
+      result.content = `Computer was ${computerChoise}, You were ${strUserChoice}. You Win!`;
       break;
     case 'scissorsscissors':
     case 'rockrock':
     case 'paperpaper':
-      interaction.reply({
-        ephemeral: true,
-        content: `Computer was ${computerChoise}, You were ${strUserChoice}. Draw!`,
-      });
+      result.content = `Computer was ${computerChoise}, You were ${strUserChoice}. Draw!`;
       break;
     case 'scissorsrock':
     case 'rockpaper':
     case 'paperscissors':
-      result--;
-      interaction.reply({
-        ephemeral: true,
-        content: `Computer was ${computerChoise}, You were ${strUserChoice}. You Lose!`,
-      });
+      score--;
+      result.content = `Computer was ${computerChoise}, You were ${strUserChoice}. You Lose!`;
       break;
   }
   console.log(
-    `computer: ${computerChoise}, user: ${strUserChoice}, result: ${result}`
+    `computer: ${computerChoise}, user: ${strUserChoice}, result: ${score}`
   );
-  return result;
+  if (interaction instanceof CommandInteraction) {
+    interaction.reply(result);
+
+    return score;
+  }
+  interaction.update(result);
+  return score;
 }
